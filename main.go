@@ -2,26 +2,26 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/url"
-	"strings"
 )
 
 func main() {
-	u, err := url.Parse("")
-	if err != nil {
-		log.Fatalln(err)
-	}
-	u.Scheme = "postgresql"
+	var u url.URL
+	u.Scheme = "https" // "postgresql"
 	//u.User = url.UserPassword("{{username}}", "{{password}}")
 	u.Host = "127.0.0.1:5432"
 	u.Path = "/"
-	u.RawQuery = "sslmode=false"
+	q := url.Values{}
+	q.Add("name", "my mg")
+	q.Add("namespace", "demo & default")
+	u.RawQuery = q.Encode()
+
 	fmt.Println(u.String())
 
-	us := u.String()
-
-	i := strings.Index(us, "://")
-
-	fmt.Println(us[:i+3]+ "{{username}}:{{password}}@" + us[i+3:])
+	//
+	//us := u.String()
+	//
+	//i := strings.Index(us, "://")
+	//
+	//fmt.Println(us[:i+3] + "{{username}}:{{password}}@" + us[i+3:])
 }
